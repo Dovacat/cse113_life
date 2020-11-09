@@ -17,6 +17,7 @@ struct commands_t cmd_interpret(int argc, char* argv[], struct commands_t comman
     int x;
     int y;
     //inits commands in case of no input
+    
     commands.w = 800;
     commands.h = 600;
     commands.type = 1;

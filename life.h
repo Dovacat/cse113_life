@@ -32,7 +32,7 @@ struct commands_t cmd_interpret(int argc, char* argv[], struct commands_t comman
 
 void print_help();
 
-int **init_grid(int h, int w);
+unsigned char **init_grid(int h, int w);
 
-void free_grid(int** grid, int h);
+void free_grid(unsigned char** grid, int h);
 #endif

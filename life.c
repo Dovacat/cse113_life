@@ -138,16 +138,16 @@ void print_help(){
 
 }
 
-int **init_grid(int h, int w){
-    int **grid = malloc(w * sizeof(int *));
+unsigned char **init_grid(int h, int w){
+    unsigned char **grid = malloc(w * sizeof(unsigned char *));
     int i;
     int j;
     if(grid == NULL){
         printf("not enough memory\n");
         exit(-2);
     }
-    for(i = 0; i < h; i++){
-        *(grid + i) = malloc(w * sizeof(int));
+    for(i = 0; i < w; i++){
+        *(grid + i) = malloc(h * sizeof(unsigned char));
         if(!*(grid + i)){
             for(j = 0; j < i; j++){
                 free(*(grid + j));
@@ -165,7 +165,7 @@ int **init_grid(int h, int w){
     return grid;
 }
 
-void free_grid(int** grid, int h){
+void free_grid(unsigned char** grid, int h){
     int i;
     for(i = 0; i < h; i++){
         free(grid[i]);

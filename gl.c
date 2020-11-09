@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
 	commands = cmd_interpret(argc, argv, commands);
 	int w = commands.w / commands.s;
 	int h = commands.h / commands.s;
-	int **grid = init_grid(h, w);
-	int **temp = init_grid(h, w);
+	unsigned char **grid = init_grid(h, w);
+	unsigned char **temp = init_grid(h, w);
 	int m = -66;
 	int n = -10;
     //colors are RGB model valid values [0, 255]
@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
 		//change the  modulus value to slow the rendering
 		 //if (SDL_GetTicks() % 1 == 0)
 			//sdl_test(&sdl_info, m, n);
+			sdl_render_life(&sdl_info, grid);
 
                  //Poll for events, and handle the ones we care about. 
                  //You can click the X button to close the window

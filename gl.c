@@ -18,27 +18,22 @@
 int main(int argc, char *argv[])
 {
 	struct commands_t commands;
+
 	commands = cmd_interpret(argc, argv, commands);
 	int w = commands.w / commands.s;
 	int h = commands.h / commands.s;
 	int **grid = init_grid(h, w);
-	printf("test\n");
 	int **temp = init_grid(h, w);
-	//allocate arrays
-	/*
-	int width = 800;
-	int height = 600;
-	int sprite_size = 4; //either 2, 4, 8, or 16
 	int m = -66;
 	int n = -10;
-        //colors are RGB model valid values [0, 255]
-	unsigned char red = 140;
-	unsigned char green = 145;
-	unsigned char blue = 250;
+    //colors are RGB model valid values [0, 255]
+	unsigned char red = commands.r;
+	unsigned char green = commands.g;
+	unsigned char blue = commands.b;
     struct sdl_info_t sdl_info; //this is needed to graphically display the game
         
         //set up SDL -- works with SDL2
-	init_sdl_info(&sdl_info, width, height, sprite_size, red, green, blue);
+	init_sdl_info(&sdl_info, commands.w, commands.h, commands.s, red, green, blue);
 
 	//your life initialization code here
 	
@@ -49,7 +44,7 @@ int main(int argc, char *argv[])
 
 		//change the  modulus value to slow the rendering
 		 //if (SDL_GetTicks() % 1 == 0)
-			sdl_test(&sdl_info, m, n);
+			//sdl_test(&sdl_info, m, n);
 
                  //Poll for events, and handle the ones we care about. 
                  //You can click the X button to close the window
@@ -70,7 +65,7 @@ int main(int argc, char *argv[])
 				return(0);
 			}
 		}
-	}*/
+	}
 	free_grid(grid, h);
 	free_grid(temp, h);
 	return 0;

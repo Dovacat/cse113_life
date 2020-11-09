@@ -16,6 +16,17 @@ struct commands_t cmd_interpret(int argc, char* argv[], struct commands_t comman
     int c;
     int x;
     int y;
+    //inits commands in case of no input
+    commands.w = 800;
+    commands.h = 600;
+    commands.type = 1;
+    commands.r = 255;
+    commands.g = 0;
+    commands.b = 0;
+    commands.s = 2;
+    commands.coords[0] = 0;
+    commands.coords[1] = 0;
+    //loop for getting commands
     while((c = getopt(argc, argv, "w:h:e:r:g:b:s:f:o:H")) != -1){
         switch(c){
             case 'w':
@@ -127,11 +138,11 @@ void print_help(){
 }
 
 int **init_grid(int h, int w){
-    int **grid = malloc(h * sizeof(int *));
+    int **grid = malloc(w * sizeof(int *));
     int i;
     int j;
     if(grid == NULL){
-        printf("not enough memory 1\n");
+        printf("not enough memory\n");
         exit(-2);
     }
     for(i = 0; i < h; i++){
@@ -141,7 +152,7 @@ int **init_grid(int h, int w){
                 free(*(grid + j));
             }
             free(grid);
-            printf("not enough memory 2\n");
+            printf("not enough memory\n");
             exit(-2);
         }
     }

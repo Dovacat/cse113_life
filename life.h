@@ -27,12 +27,13 @@ struct commands_t{
     char file[30];
     int coords[2];
 };
-
 struct commands_t cmd_interpret(int argc, char* argv[], struct commands_t commands);
 
 void print_help();
 
-unsigned char **init_grid(int h, int w);
+unsigned char **init_grid(int w, int h);
 
 void free_grid(unsigned char** grid, int h);
+
+void read_106(char file[], int array[]);
 #endif

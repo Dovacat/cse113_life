@@ -7,11 +7,19 @@
  * 
  * @date 2020-11-09
  * 
- * @todo init 2d array, read from file, read board, generate new generations(optimally if possible), change interpritation based on board type, read 105 files
+ * @todo init board with file info, read board, generate new generations(optimally if possible), change interpritation based on board type, read 105 files
  * 
  */
 #include "life.h"
 
+/** fills the commands struct based on args given at run
+ * 
+ * @param argc the number of args given in the terminal
+ * @param argv the command string
+ * @param commands the struct that is populated
+ * @return struct commands_t the populated struct
+ * @remarks since im lazy and dont want to enter commands every time, all values are defaulted except filename at the start
+ */
 struct commands_t cmd_interpret(int argc, char* argv[], struct commands_t commands){
     int c;
     int x;
@@ -122,6 +130,8 @@ struct commands_t cmd_interpret(int argc, char* argv[], struct commands_t comman
 
 }
 
+/** prints the use of the program/explains what arguments do
+ */
 void print_help(){
     printf("Usage for this program is as follows:\n");
     printf("-w: width of window, int > 0\n");
@@ -138,16 +148,21 @@ void print_help(){
 
 }
 
-unsigned char **init_grid(int h, int w){
-    unsigned char **grid = malloc(w * sizeof(unsigned char *));
+/** inits the 2d array used for the grid
+ * @param h the height of the grid
+ * @param w the width of the grid
+ * @return unsigned char** the generated 2d array
+ */
+unsigned char **init_grid(int w, int h){
+    unsigned char **grid = malloc(h * sizeof(unsigned char *));
     int i;
     int j;
     if(grid == NULL){
         printf("not enough memory\n");
         exit(-2);
     }
-    for(i = 0; i < w; i++){
-        *(grid + i) = malloc(h * sizeof(unsigned char));
+    for(i = 0; i < h; i++){
+        *(grid + i) = malloc(w * sizeof(unsigned char));
         if(!*(grid + i)){
             for(j = 0; j < i; j++){
                 free(*(grid + j));
@@ -156,19 +171,44 @@ unsigned char **init_grid(int h, int w){
             printf("not enough memory\n");
             exit(-2);
         }
-    }
-    for(i = 0; i < w; i++){
-        for(j = 0; j < h; j++){
+    }/*
+    for(i = 0; i < h; i++){ //inits all units in grid to 1
+        for(j = 0; j < w; j++){
             *(*(grid + j) + i) = 1;
         }
-    }
+    }*/
     return grid;
 }
 
+/** frees the memory allocated for the grid
+ * @param grid the grid to be freed
+ * @param w the width of the grid
+ */
 void free_grid(unsigned char** grid, int h){
     int i;
     for(i = 0; i < h; i++){
         free(grid[i]);
     }
     free(grid);
+}
+
+void read_106(char fname[], int array[]){
+    int i = 0;
+    FILE *file = fopen(fname, "r");
+    if(file != NULL){
+        char line[50];
+        while(fgets(line, sizeof(line), file) != NULL){
+            if(line[0] == '#'){
+            }else{
+                printf("%s", line);
+                sscanf(line, "%d %d", &array[i], &array[i + 1]);
+                i += 2;
+            }
+        }
+        
+    }else{
+        printf("File not found\n");
+        exit(-3);
+    }
+    fclose(file);
 }

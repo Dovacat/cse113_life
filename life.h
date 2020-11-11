@@ -35,5 +35,9 @@ unsigned char **init_grid(int w, int h);
 
 void free_grid(unsigned char** grid, int h);
 
-void read_106(char file[], int array[]);
+int read_106(char file[], int array[]);
+
+void get_offest(int offset_x, int offset_y, int map[], int size, int w, int h);
+
+unsigned char **populate_grid(int map[], int size, unsigned char **grid);
 #endif

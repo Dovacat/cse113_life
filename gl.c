@@ -17,27 +17,36 @@
 
 int main(int argc, char *argv[])
 {
-	struct commands_t commands;
+	//variable inits
+	struct commands_t commands; //commands struct
+	int size; //size of seed array
 	int map[50]; //array that hold the seed map values
 	commands = cmd_interpret(argc, argv, commands);
-	int w = commands.w / commands.s;
-	int h = commands.h / commands.s;
-	unsigned char **grid = init_grid(h, w);
-	unsigned char **temp = init_grid(h, w);
-    //colors are RGB model valid values [0, 255]
+	int w = commands.w / commands.s; //width of grid
+	int h = commands.h / commands.s; //height of grid
+	unsigned char **grid = init_grid(h, w); //grid that is displayed to the screen
+	unsigned char **temp = init_grid(h, w); //grid that is used to calculate next generation
+    
+	//colors are RGB model valid values [0, 255]
 	unsigned char red = commands.r;
 	unsigned char green = commands.g;
 	unsigned char blue = commands.b;
-	read_106(commands.file, map);
+	
+	size = read_106(commands.file, map);
+	get_offest(commands.coords[0], commands.coords[1], map, size, w, h);
+	//sets grind and temp to starting seed map
+	grid = populate_grid(map, size, grid);
+	temp = grid;
+
     struct sdl_info_t sdl_info; //this is needed to graphically display the game
         
         //set up SDL -- works with SDL2
-	//init_sdl_info(&sdl_info, commands.w, commands.h, commands.s, red, green, blue);
+	init_sdl_info(&sdl_info, commands.w, commands.h, commands.s, red, green, blue);
 
 	//your life initialization code here
 	
         //Main loop: loop forever.
-		/*
+		
 	while (1)
 	{
 		//your game of life code goes here		
@@ -66,7 +75,7 @@ int main(int argc, char *argv[])
 				return(0);
 			}
 		}
-	}*/
+	}
 	free_grid(grid, w);
 	free_grid(temp, w);
 	return 0;

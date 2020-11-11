@@ -118,8 +118,8 @@ struct commands_t cmd_interpret(int argc, char* argv[], struct commands_t comman
                 break;
             case 'o':
                 sscanf(optarg, "%d,%d", &x, &y);
-                commands.coords[0] = x;
-                commands.coords[1] = y;
+                commands.coords[1] = x;
+                commands.coords[0] = y;
                 break;
             case 'H':
                 print_help();
@@ -172,9 +172,9 @@ unsigned char **init_grid(int w, int h){
             exit(-2);
         }
     }/*
-    for(i = 0; i < h; i++){ //inits all units in grid to 1
+    for(i = 0; i < h; i++){
         for(j = 0; j < w; j++){
-            *(*(grid + j) + i) = 1;
+            grid[i][j] = 1;
         }
     }*/
     return grid;
@@ -192,7 +192,12 @@ void free_grid(unsigned char** grid, int h){
     free(grid);
 }
 
-void read_106(char fname[], int array[]){
+/** reads 106 type files
+ * @param fname the file name to be read
+ * @param array the array that is populated with the file contents
+ * @return int the number of coordinates
+ */
+int read_106(char fname[], int array[]){
     int i = 0;
     FILE *file = fopen(fname, "r");
     if(file != NULL){
@@ -211,4 +216,42 @@ void read_106(char fname[], int array[]){
         exit(-3);
     }
     fclose(file);
+    return i;
+}
+
+void get_offest(int offset_x, int offset_y, int map[], int size, int w, int h){
+    int i;
+    //changes offset
+    for(i = 0; i < size; i += 2){
+        if(map[i] + offset_x < 0){
+            offset_x -= map[i];
+        }
+        if(map[i] + offset_x > w){ //checks if coordinate will go off the screen
+            printf("Entered starting coordinates out of bounds!\n");
+            exit(-4);
+        }
+        if(map[i + 1] + offset_y < 0){
+            offset_y -= map[i + 1];
+        }
+        if(map[i + 1] + offset_y > h){
+            printf("Entered starting coordinates out of bounds!\n");
+            exit(-4);
+        }
+    }
+    printf("offset %d, %d\n", offset_x, offset_y);
+    //changes map seed values by offset
+    for(i = 0; i < size; i += 2){
+        map[i] += offset_x;
+        map[i + 1] += offset_y;
+        printf("%d, %d\n", map[i], map[i + 1]);
+    }
+
+}
+
+unsigned char **populate_grid(int map[], int size, unsigned char **grid){
+    int i;
+    for(i = 0; i < size; i += 2){
+        grid[map[i + 1]][map[i]] = 1;
+    }
+    return grid;
 }

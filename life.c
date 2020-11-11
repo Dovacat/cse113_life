@@ -227,30 +227,34 @@ int read_106(char fname[], int array[]){
  * @param w the width of the grid
  * @param h the height of the grid
  */
-void get_offest(int offset_x, int offset_y, int map[], int size, int w, int h){
+void get_offest(struct commands_t commands, int map[], int size, int w, int h){
     int i;
     //changes offset
     for(i = 0; i < size; i += 2){
-        if(map[i] + offset_x < 0){
-            offset_x -= map[i];
+        if(map[i] + commands.coords[0] < 0){
+            commands.coords[0] -= map[i];
         }
-        if(map[i] + offset_x > w){ //checks if coordinate will go off the screen
+        if(map[i] + commands.coords[0] > w){ //checks if coordinate will go off the screen
             printf("Entered starting coordinates out of bounds!\n");
             exit(-4);
         }
-        if(map[i + 1] + offset_y < 0){
-            offset_y -= map[i + 1];
+        if(map[i + 1] + commands.coords[1] < 0){
+            commands.coords[1] -= map[i + 1];
         }
-        if(map[i + 1] + offset_y > h){
+        if(map[i + 1] + commands.coords[1] > h){
             printf("Entered starting coordinates out of bounds!\n");
             exit(-4);
         }
+    }//if board type is hedge, increases offset by 1 to account for the edge
+    if(commands.type == 1){
+        commands.coords[0]++;
+        commands.coords[1]++;
     }
-    printf("offset %d, %d\n", offset_x, offset_y);
+    printf("offset %d, %d\n", commands.coords[0], commands.coords[1]);
     //changes map seed values by offset
     for(i = 0; i < size; i += 2){
-        map[i] += offset_x;
-        map[i + 1] += offset_y;
+        map[i] += commands.coords[0];
+        map[i + 1] += commands.coords[0];
         printf("%d, %d\n", map[i], map[i + 1]);
     }
 
@@ -265,7 +269,68 @@ void get_offest(int offset_x, int offset_y, int map[], int size, int w, int h){
 unsigned char **populate_grid(int map[], int size, unsigned char **grid){
     int i;
     for(i = 0; i < size; i += 2){
-        grid[map[i + 1]][map[i]] = 1;
+        grid[map[i]][map[i + 1]] = 1;
     }
     return grid;
+}
+
+/** determines what a cell should do(live/die)
+ * @param sum the sum of the neighbors
+ * @param state the current state of the cell
+ * @return int the updated state of the cell
+ * @remarks since all alive cells have a value of 1, I can just add up all the neighbors to determine what a cell should do
+ */
+int behavior(int sum, int state){
+    if(state){
+        if(sum < 2){
+            return 0;
+        }else if(sum > 3){
+            return 0;
+        }
+        return 1;
+    }else{
+        if(sum == 3){
+            return 1;
+        }
+    }
+    return 1;
+}
+
+/** updates hedge type board
+ * @param grid the grid that is displayed
+ * @param temp the temp grid where updates are staged
+ * @param w the width of the grid
+ * @param h the height of the grid
+ * @return unsigned char** the updated grid
+ * @remarks I wish this was a better implementation, Ill change it if it becomes problematic or I think of a better solution
+ */
+unsigned char **update_hedge(unsigned char **grid, unsigned char **temp, int w, int h){
+    int sum;
+    int i;
+    int j;
+    //inits edges to 0
+    for(i = 0; i < h; i++){
+        for(j = 0; j < w; j++){
+            printf("%d ", temp[i][j]);
+        }
+        printf("\n");
+    }
+    printf("init\n");
+    for(i = 0; i < h; i++){
+        temp[0][i] = 1;
+        temp[h - 1][i] = 1;
+    }
+    for(i = 0; i < w; i++){
+        temp[i][0] = 1;
+        temp[i][w - 1] = 1;
+    }
+    /*
+    for(j = 1; j < w - 1; j++){
+        for(i = 1; i < h - 1; i++){
+            //I hate this line but it will be here unless I think of something else
+            sum = grid[i - 1][j - 1] + grid[i - 1][j] + grid[i - 1][j + 1] + grid[i][j - 1] + grid[i][j + 1] + grid[i + 1][j - 1] + grid[i + 1][j] + grid[i + 1][j + 1];
+            temp[i][j] = behavior(sum, grid[i][j]);
+        }
+    }*/
+    return temp;
 }

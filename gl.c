@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 	unsigned char blue = commands.b;
 	
 	size = read_106(commands.file, map);
-	get_offest(commands.coords[0], commands.coords[1], map, size, w, h);
+	get_offest(commands, map, size, w, h);
 	//sets grind and temp to starting seed map
 	grid = populate_grid(map, size, grid);
 	temp = grid;
@@ -46,19 +46,20 @@ int main(int argc, char *argv[])
 	//your life initialization code here
 	
         //Main loop: loop forever.
-		
+
 	while (1)
 	{
+		sleep(10);
 		//your game of life code goes here		
-
 		//change the  modulus value to slow the rendering
-		 //if (SDL_GetTicks() % 1 == 0)
+		//if (SDL_GetTicks() % 1000 == 0){
 			//sdl_test(&sdl_info, m, n);
 			sdl_render_life(&sdl_info, grid);
-
+			grid = update_hedge(grid, temp, w, h);
+			temp = grid;
                  //Poll for events, and handle the ones we care about. 
                  //You can click the X button to close the window
-                  
+		//}
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) 
 		{
@@ -68,8 +69,9 @@ int main(int argc, char *argv[])
 				break;
 			case SDL_KEYUP:
                         //If escape is pressed, return (and thus, quit)
-				if (event.key.keysym.sym == SDLK_ESCAPE)
+				if (event.key.keysym.sym == SDLK_ESCAPE){
 					return 0;
+				}
 				break;
 			case SDL_QUIT:
 				return(0);

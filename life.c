@@ -219,6 +219,14 @@ int read_106(char fname[], int array[]){
     return i;
 }
 
+/** changes starting position of map based on user input and whether or not cells will be out of bounds
+ * @param offset_x the user entered x offset
+ * @param offset_y the user entered y offset
+ * @param map the seed map
+ * @param size number of coordinates in the seed map
+ * @param w the width of the grid
+ * @param h the height of the grid
+ */
 void get_offest(int offset_x, int offset_y, int map[], int size, int w, int h){
     int i;
     //changes offset
@@ -248,6 +256,12 @@ void get_offest(int offset_x, int offset_y, int map[], int size, int w, int h){
 
 }
 
+/** populates grid based on map
+ * @param map the seed map
+ * @param size the number of coordinates in the map
+ * @param grid the grid that will be populated
+ * @return unsigned char** the populated grid
+ */
 unsigned char **populate_grid(int map[], int size, unsigned char **grid){
     int i;
     for(i = 0; i < size; i += 2){

@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     struct sdl_info_t sdl_info; //this is needed to graphically display the game
         
         //set up SDL -- works with SDL2
-	init_sdl_info(&sdl_info, commands.w, commands.h, commands.s, red, green, blue);
+	//init_sdl_info(&sdl_info, commands.w, commands.h, commands.s, red, green, blue);
 
 	//your life initialization code here
 	
@@ -54,12 +54,13 @@ int main(int argc, char *argv[])
 		//change the  modulus value to slow the rendering
 		//if (SDL_GetTicks() % 1000 == 0){
 			//sdl_test(&sdl_info, m, n);
-			sdl_render_life(&sdl_info, grid);
+			//sdl_render_life(&sdl_info, grid);
 			grid = update_hedge(grid, temp, w, h);
 			temp = grid;
                  //Poll for events, and handle the ones we care about. 
                  //You can click the X button to close the window
 		//}
+		/*
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) 
 		{
@@ -76,7 +77,7 @@ int main(int argc, char *argv[])
 			case SDL_QUIT:
 				return(0);
 			}
-		}
+		}*/
 	}
 	free_grid(grid, w);
 	free_grid(temp, w);

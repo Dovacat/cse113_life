@@ -283,17 +283,21 @@ unsigned char **populate_grid(int map[], int size, unsigned char **grid){
 int behavior(int sum, int state){
     if(state){
         if(sum < 2){
+            printf("sum die 1 %d\n", sum);
             return 0;
         }else if(sum > 3){
+            printf("sum die 2 %d\n", sum);
             return 0;
         }
         return 1;
     }else{
         if(sum == 3){
+            printf("sum create %d\n", sum);
             return 1;
         }
     }
-    return 1;
+    printf("sum static %d\n", sum);
+    return state;
 }
 
 /** updates hedge type board
@@ -311,26 +315,28 @@ unsigned char **update_hedge(unsigned char **grid, unsigned char **temp, int w, 
     //inits edges to 0
     for(i = 0; i < h; i++){
         for(j = 0; j < w; j++){
-            printf("%d ", temp[i][j]);
+            printf("%d", temp[i][j]);
         }
         printf("\n");
     }
     printf("init\n");
     for(i = 0; i < h; i++){
-        temp[0][i] = 1;
-        temp[h - 1][i] = 1;
+        temp[0][i] = 0;
+        temp[h - 1][i] = 0;
     }
     for(i = 0; i < w; i++){
-        temp[i][0] = 1;
-        temp[i][w - 1] = 1;
+        temp[i][0] = 0;
+        temp[i][w - 0] = 0;
     }
-    /*
     for(j = 1; j < w - 1; j++){
         for(i = 1; i < h - 1; i++){
             //I hate this line but it will be here unless I think of something else
             sum = grid[i - 1][j - 1] + grid[i - 1][j] + grid[i - 1][j + 1] + grid[i][j - 1] + grid[i][j + 1] + grid[i + 1][j - 1] + grid[i + 1][j] + grid[i + 1][j + 1];
-            temp[i][j] = behavior(sum, grid[i][j]);
+            if(sum){
+                printf("x %d y %d\n", j, i);
+                temp[i][j] = behavior(sum, grid[i][j]);
+            }
         }
-    }*/
+    }
     return temp;
 }

@@ -7,7 +7,7 @@
  * 
  * @date 2020-11-09
  * 
- * @todo init board with file info, read board, generate new generations(optimally if possible), change interpritation based on board type, read 105 files
+ * @todo read board, generate new generations(optimally if possible), change interpritation based on board type, read 105 files
  * 
  */
 #include "life.h"

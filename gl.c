@@ -7,7 +7,7 @@
  * 
  * @date 2020-11-09
  * 
- * @todo init board with file info, read board, generate new generations(optimally if possible), change interpritation based on board type, read 105 files
+ * @todo read board, generate new generations(optimally if possible), change interpritation based on board type, read 105 files
  * 
  */
 #include <stdlib.h>
@@ -20,10 +20,10 @@ int main(int argc, char *argv[])
 	//variable inits
 	struct commands_t commands; //commands struct
 	int size; //size of seed array
-	int map[50]; //array that hold the seed map values
 	commands = cmd_interpret(argc, argv, commands);
 	int w = commands.w / commands.s; //width of grid
 	int h = commands.h / commands.s; //height of grid
+	int map[w * h]; //array that hold the seed map values
 	unsigned char **grid = init_grid(h, w); //grid that is displayed to the screen
 	unsigned char **temp = init_grid(h, w); //grid that is used to calculate next generation
     

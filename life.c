@@ -274,15 +274,22 @@ unsigned char **populate_grid(int map[], int size, unsigned char **grid){
     return grid;
 }
 
+/** pushes staged changes to the display grid
+ * @param w width of grid
+ * @param h height of grid
+ * @param grid the displayed grid
+ * @param temp the temp grid where changes are staged
+ * @return unsigned char** the updated display grid
+ */
 unsigned char **update_grid(int w, int h, unsigned char **grid, unsigned char **temp){
     int i;
     int j;
     for(i = 0; i < h; i++){
         for(j = 0; j < w; j++){
-            temp[i][j] = grid[i][j];
+            grid[i][j] = temp[i][j];
         }
     }
-    return temp;
+    return grid;
 }
 
 /** determines what a cell should do(live/die)
@@ -294,20 +301,16 @@ unsigned char **update_grid(int w, int h, unsigned char **grid, unsigned char **
 int behavior(int sum, int state){
     if(state){
         if(sum < 2){
-            //printf("sum die 1 %d\n", sum);
             return 0;
         }else if(sum > 3){
-            //printf("sum die 2 %d\n", sum);
             return 0;
         }
         return 1;
     }else{
         if(sum == 3){
-            //printf("sum create %d\n", sum);
             return 1;
         }
     }
-    //printf("sum static %d, state %d\n", sum, state);
     return state;
 }
 
@@ -343,10 +346,7 @@ unsigned char **update_hedge(unsigned char **grid, unsigned char **temp, int w, 
         for(i = 1; i < h - 1; i++){
             //I hate this line but it will be here unless I think of something else
             sum = grid[i - 1][j - 1] + grid[i - 1][j] + grid[i - 1][j + 1] + grid[i][j - 1] + grid[i][j + 1] + grid[i + 1][j - 1] + grid[i + 1][j] + grid[i + 1][j + 1];
-            //if(sum == 3 || grid[i][j]){
-                //printf("x %d y %d\n", j, i);
-                temp[i][j] = behavior(sum, grid[i][j]);
-            //}
+            temp[i][j] = behavior(sum, grid[i][j]);
         }
     }
     return temp;

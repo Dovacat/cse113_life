@@ -27,7 +27,7 @@ struct commands_t cmd_interpret(int argc, char* argv[], struct commands_t comman
     //inits commands in case of no input
     
     commands.w = 800;
-    commands.h = 600;
+    commands.h = 800;
     commands.type = 1;
     commands.r = 255;
     commands.g = 0;
@@ -205,7 +205,6 @@ int read_106(char fname[], int array[]){
         while(fgets(line, sizeof(line), file) != NULL){
             if(line[0] == '#'){
             }else{
-                printf("%s", line);
                 sscanf(line, "%d %d", &array[i], &array[i + 1]);
                 i += 2;
             }
@@ -234,14 +233,14 @@ void get_offest(struct commands_t commands, int map[], int size, int w, int h){
         if(map[i] + commands.coords[0] < 0){
             commands.coords[0] -= map[i];
         }
-        if(map[i] + commands.coords[0] > w){ //checks if coordinate will go off the screen
+        if(map[i] + commands.coords[0] >= h){ //checks if coordinate will go off the screen
             printf("Entered starting coordinates out of bounds!\n");
             exit(-4);
         }
         if(map[i + 1] + commands.coords[1] < 0){
             commands.coords[1] -= map[i + 1];
         }
-        if(map[i + 1] + commands.coords[1] > h){
+        if(map[i + 1] + commands.coords[1] >= w){
             printf("Entered starting coordinates out of bounds!\n");
             exit(-4);
         }
@@ -255,7 +254,7 @@ void get_offest(struct commands_t commands, int map[], int size, int w, int h){
     for(i = 0; i < size; i += 2){
         map[i] += commands.coords[0];
         map[i + 1] += commands.coords[0];
-        printf("%d, %d\n", map[i], map[i + 1]);
+        //printf("%d, %d\n", map[i], map[i + 1]);
     }
 
 }
@@ -326,27 +325,29 @@ unsigned char **update_hedge(unsigned char **grid, unsigned char **temp, int w, 
     int sum;
     int i;
     int j;
-    //inits edges to 0
+    /*//prints array for debugging purposes
     for(i = 0; i < h; i++){
         for(j = 0; j < w; j++){
             printf("%d", temp[i][j]);
         }
         printf("\n");
-    }
-    printf("init\n");
+    }*/
+    //inits edges to 0
     for(i = 0; i < h; i++){
         temp[0][i] = 0;
         temp[h - 1][i] = 0;
     }
     for(i = 0; i < w; i++){
         temp[i][0] = 0;
-        temp[i][w - 0] = 0;
+        temp[i][w - 1] = 0;
     }
     for(j = 1; j < w - 1; j++){
         for(i = 1; i < h - 1; i++){
             //I hate this line but it will be here unless I think of something else
             sum = grid[i - 1][j - 1] + grid[i - 1][j] + grid[i - 1][j + 1] + grid[i][j - 1] + grid[i][j + 1] + grid[i + 1][j - 1] + grid[i + 1][j] + grid[i + 1][j + 1];
-            temp[i][j] = behavior(sum, grid[i][j]);
+            if(sum == 3 || grid[i][j]){
+                temp[i][j] = behavior(sum, grid[i][j]);
+            }
         }
     }
     return temp;

@@ -253,7 +253,7 @@ void get_offest(struct commands_t commands, int map[], int size, int w, int h){
     //changes map seed values by offset
     for(i = 0; i < size; i += 2){
         map[i] += commands.coords[0];
-        map[i + 1] += commands.coords[0];
+        map[i + 1] += commands.coords[1];
         //printf("%d, %d\n", map[i], map[i + 1]);
     }
 
@@ -364,9 +364,9 @@ unsigned char **update_hedge(unsigned char **grid, unsigned char **temp, int w, 
 unsigned char **update_torus(unsigned char **grid, unsigned char **temp, int w, int h){
     int i;
     int j;
-    int sum;
-    for(i = 0; i < w; i++){
-        for(j = 0; j < h; j++){
+    int sum = 0;
+    for(j = 0; j < w; j++){
+        for(i = 0; i < h; i++){
             if(!i && !j){
                 sum = grid[h - 1][w - 1] + grid[h - 1][i] + grid[h - 1][i + 1] + grid[j][w - 1] + grid[j][i + 1] + grid[j + 1][w - 1] + grid[j + 1][i] + grid[j + 1][i + 1]; //top left case
             }else if(i == w - 1 && !j){
@@ -383,7 +383,7 @@ unsigned char **update_torus(unsigned char **grid, unsigned char **temp, int w, 
                 sum = grid[h - 1][i - 1] + grid[h - 1][i] + grid[h - 1][i + 1] + grid[j][i - 1] + grid[j][i + 1] + grid[j + 1][i - 1] + grid[j + 1][i] + grid[j + 1][i + 1]; //top of grid, not at left or right case
             }else if(i == w - 1 && (j && !(j == h - 1))){
                 sum = grid[j - 1][i - 1] + grid[j - 1][i] + grid[j - 1][i + 1] + grid[j][i - 1] + grid[j][i + 1] + grid[0][i - 1] + grid[0][i] + grid[0][i + 1]; //bottom of grid, not at left or right case
-            }else{
+            }else if(i > 0 && j > 0 && i < h - 1 && j < w - 1){
                 sum = grid[j - 1][i - 1] + grid[j - 1][i] + grid[j - 1][i + 1] + grid[j][i - 1] + grid[j][i + 1] + grid[j + 1][i - 1] + grid[j + 1][i] + grid[j + 1][i + 1];
             }
             if(sum == 3 || grid[j][i]){

@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 
 		//your game of life code goes here		
 		//change the  modulus value to slow the rendering
-		if (SDL_GetTicks() % 50 == 0){
+		if (SDL_GetTicks() % 10 == 0){
 			//sdl_test(&sdl_info, m, n);
 			sdl_render_life(&sdl_info, grid);
 			if(commands.type == 1){

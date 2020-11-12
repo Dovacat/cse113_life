@@ -41,6 +41,8 @@ void get_offest(struct commands_t commands, int map[], int size, int w, int h);
 
 unsigned char **populate_grid(int map[], int size, unsigned char **grid);
 
+unsigned char **update_grid(int w, int h, unsigned char **grid, unsigned char **temp);
+
 int behavior(int sum, int state);
 
 unsigned char **update_hedge(unsigned char **grid, unsigned char **temp, int w, int h);

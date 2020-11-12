@@ -7,7 +7,7 @@
  * 
  * @date 2020-11-09
  * 
- * @todo read board, generate new generations(optimally if possible), change interpritation based on board type, read 105 files
+ * @todo change interpritation based on board type, read 105 files
  * 
  */
 #include "life.h"
@@ -347,6 +347,47 @@ unsigned char **update_hedge(unsigned char **grid, unsigned char **temp, int w, 
             sum = grid[i - 1][j - 1] + grid[i - 1][j] + grid[i - 1][j + 1] + grid[i][j - 1] + grid[i][j + 1] + grid[i + 1][j - 1] + grid[i + 1][j] + grid[i + 1][j + 1];
             if(sum == 3 || grid[i][j]){
                 temp[i][j] = behavior(sum, grid[i][j]);
+            }
+        }
+    }
+    return temp;
+}
+
+/** updates torus type board
+ * @param grid the grid that is diplayed
+ * @param temp the temp grid where updates are staged
+ * @param w the width of the grid
+ * @param h the height of the grid
+ * @return unsigned char** the updated grid
+ * @remarks Oh lord I hate this thing but its the only way I can come up with atm, might try a diff solution later
+ */
+unsigned char **update_torus(unsigned char **grid, unsigned char **temp, int w, int h){
+    int i;
+    int j;
+    int sum;
+    for(i = 0; i < w; i++){
+        for(j = 0; j < h; j++){
+            if(!i && !j){
+                sum = grid[h - 1][w - 1] + grid[h - 1][i] + grid[h - 1][i + 1] + grid[j][w - 1] + grid[j][i + 1] + grid[j + 1][w - 1] + grid[j + 1][i] + grid[j + 1][i + 1]; //top left case
+            }else if(i == w - 1 && !j){
+                sum = grid[h - 1][i - 1] + grid[h - 1][i] + grid[h - 1][0] + grid[j][i - 1] + grid[j][0] + grid[j + 1][i - 1] + grid[j + 1][i] + grid[j + 1][0];  // top right case
+            }else if(!i && j == h - 1){
+                sum = grid[j - 1][w - 1] + grid[j - 1][i] + grid[j - 1][i + 1] + grid[j][w - 1] + grid[j][i + 1] + grid[0][w - 1] + grid[0][i] + grid[0][i + 1]; //bottom left case
+            }else if(i == w - 1 && j == h - 1){
+                sum = grid[j - 1][i - 1] + grid[j - 1][i] + grid[j - 1][0] + grid[j][i - 1] + grid[j][0] + grid[0][i - 1] + grid[0][i] + grid[0][0]; //bottom right case
+            }else if(!i && (j && !(j == h - 1))){
+                sum = grid[j - 1][w - 1] + grid[j - 1][i] + grid[j - 1][i + 1] + grid[j][w - 1] + grid[j][i + 1] + grid[j + 1][w - 1] + grid[j + 1][i] + grid[j + 1][i + 1]; //left side of grid, not at top or bottom case
+            }else if(i == w - 1 && (j && !(j == h - 1))){
+                sum = grid[j - 1][i - 1] + grid[j - 1][i] + grid[j - 1][0] + grid[j][i - 1] + grid[j][0] + grid[j + 1][i - 1] + grid[j + 1][i] + grid[j + 1][0]; //right side of grid, not at top or bottom case
+            }else if(!j && (i && !(i == w - 1))){
+                sum = grid[h - 1][i - 1] + grid[h - 1][i] + grid[h - 1][i + 1] + grid[j][i - 1] + grid[j][i + 1] + grid[j + 1][i - 1] + grid[j + 1][i] + grid[j + 1][i + 1]; //top of grid, not at left or right case
+            }else if(i == w - 1 && (j && !(j == h - 1))){
+                sum = grid[j - 1][i - 1] + grid[j - 1][i] + grid[j - 1][i + 1] + grid[j][i - 1] + grid[j][i + 1] + grid[0][i - 1] + grid[0][i] + grid[0][i + 1]; //bottom of grid, not at left or right case
+            }else{
+                sum = grid[j - 1][i - 1] + grid[j - 1][i] + grid[j - 1][i + 1] + grid[j][i - 1] + grid[j][i + 1] + grid[j + 1][i - 1] + grid[j + 1][i] + grid[j + 1][i + 1];
+            }
+            if(sum == 3 || grid[j][i]){
+                temp[j][i] = behavior(sum, grid[j][i]);
             }
         }
     }

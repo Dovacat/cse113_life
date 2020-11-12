@@ -7,7 +7,7 @@
  * 
  * @date 2020-11-09
  * 
- * @todo read board, generate new generations(optimally if possible), change interpritation based on board type, read 105 files
+ * @todo change interpritation based on board type, read 105 files
  * 
  */
 #include <stdlib.h>
@@ -59,6 +59,8 @@ int main(int argc, char *argv[])
 			sdl_render_life(&sdl_info, grid);
 			if(commands.type == 1){
 				temp = update_hedge(grid, temp, w, h);
+			}else if(commands.type == 2){
+				temp = update_torus(grid, temp, w, h);
 			}
 			grid = update_grid(w, h, grid, temp);
                  //Poll for events, and handle the ones we care about. 

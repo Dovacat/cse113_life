@@ -362,11 +362,12 @@ unsigned char **update_hedge(unsigned char **grid, unsigned char **temp, int w, 
  * @remarks Oh lord I hate this thing but its the only way I can come up with atm, might try a diff solution later
  */
 unsigned char **update_torus(unsigned char **grid, unsigned char **temp, int w, int h){
-    int i;
-    int j;
+    int i; // Row index
+    int j; // Column
     int sum = 0;
     for(j = 0; j < w; j++){
         for(i = 0; i < h; i++){
+            /*
             if(!i && !j){
                 sum = grid[h - 1][w - 1] + grid[h - 1][i] + grid[h - 1][i + 1] + grid[j][w - 1] + grid[j][i + 1] + grid[j + 1][w - 1] + grid[j + 1][i] + grid[j + 1][i + 1]; //top left case
             }else if(i == w - 1 && !j){
@@ -385,9 +386,10 @@ unsigned char **update_torus(unsigned char **grid, unsigned char **temp, int w, 
                 sum = grid[j - 1][i - 1] + grid[j - 1][i] + grid[j - 1][i + 1] + grid[j][i - 1] + grid[j][i + 1] + grid[0][i - 1] + grid[0][i] + grid[0][i + 1]; //bottom of grid, not at left or right case
             }else if(i > 0 && j > 0 && i < h - 1 && j < w - 1){
                 sum = grid[j - 1][i - 1] + grid[j - 1][i] + grid[j - 1][i + 1] + grid[j][i - 1] + grid[j][i + 1] + grid[j + 1][i - 1] + grid[j + 1][i] + grid[j + 1][i + 1];
-            }
-            if(sum == 3 || grid[j][i]){
-                temp[j][i] = behavior(sum, grid[j][i]);
+            }*/
+            sum = grid[(i + h - 1) % h][(j + w - 1) % w] + grid[(i + h - 1) % h][j] + grid[(i + h - 1) % h][(j + 1) % w] + grid[i][(j + w - 1) % w] + grid[i][(j + 1) % w] + grid[(i + 1) % h][(j + w - 1) % w] + grid[(i + 1) % h][j] + grid[(i + 1) % h][(j + 1) % w];
+            if(sum == 3 || grid[i][j]){
+                temp[i][j] = behavior(sum, grid[i][j]);
             }
         }
     }

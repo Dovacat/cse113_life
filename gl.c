@@ -61,6 +61,8 @@ int main(int argc, char *argv[])
 				temp = update_hedge(grid, temp, w, h);
 			}else if(commands.type == 2){
 				temp = update_torus(grid, temp, w, h);
+			}else if(commands.type == 3){
+				temp = update_klein(grid, temp, w, h);
 			}
 			grid = update_grid(w, h, grid, temp);
                  //Poll for events, and handle the ones we care about. 

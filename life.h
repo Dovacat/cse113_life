@@ -48,4 +48,6 @@ int behavior(int sum, int state);
 unsigned char **update_hedge(unsigned char **grid, unsigned char **temp, int w, int h);
 
 unsigned char **update_torus(unsigned char **grid, unsigned char **temp, int w, int h);
+
+unsigned char **update_klein(unsigned char **grid, unsigned char **temp, int w, int h);
 #endif

@@ -360,6 +360,7 @@ unsigned char **update_hedge(unsigned char **grid, unsigned char **temp, int w, 
  * @param h the height of the grid
  * @return unsigned char** the updated grid
  * @remarks Oh lord I hate this thing but its the only way I can come up with atm, might try a diff solution later
+ * @remarks actually I found a cool ish solution
  */
 unsigned char **update_torus(unsigned char **grid, unsigned char **temp, int w, int h){
     int i; // Row index
@@ -367,31 +368,39 @@ unsigned char **update_torus(unsigned char **grid, unsigned char **temp, int w, 
     int sum = 0;
     for(j = 0; j < w; j++){
         for(i = 0; i < h; i++){
-            /*
-            if(!i && !j){
-                sum = grid[h - 1][w - 1] + grid[h - 1][i] + grid[h - 1][i + 1] + grid[j][w - 1] + grid[j][i + 1] + grid[j + 1][w - 1] + grid[j + 1][i] + grid[j + 1][i + 1]; //top left case
-            }else if(i == w - 1 && !j){
-                sum = grid[h - 1][i - 1] + grid[h - 1][i] + grid[h - 1][0] + grid[j][i - 1] + grid[j][0] + grid[j + 1][i - 1] + grid[j + 1][i] + grid[j + 1][0];  // top right case
-            }else if(!i && j == h - 1){
-                sum = grid[j - 1][w - 1] + grid[j - 1][i] + grid[j - 1][i + 1] + grid[j][w - 1] + grid[j][i + 1] + grid[0][w - 1] + grid[0][i] + grid[0][i + 1]; //bottom left case
-            }else if(i == w - 1 && j == h - 1){
-                sum = grid[j - 1][i - 1] + grid[j - 1][i] + grid[j - 1][0] + grid[j][i - 1] + grid[j][0] + grid[0][i - 1] + grid[0][i] + grid[0][0]; //bottom right case
-            }else if(!i && (j && !(j == h - 1))){
-                sum = grid[j - 1][w - 1] + grid[j - 1][i] + grid[j - 1][i + 1] + grid[j][w - 1] + grid[j][i + 1] + grid[j + 1][w - 1] + grid[j + 1][i] + grid[j + 1][i + 1]; //left side of grid, not at top or bottom case
-            }else if(i == w - 1 && (j && !(j == h - 1))){
-                sum = grid[j - 1][i - 1] + grid[j - 1][i] + grid[j - 1][0] + grid[j][i - 1] + grid[j][0] + grid[j + 1][i - 1] + grid[j + 1][i] + grid[j + 1][0]; //right side of grid, not at top or bottom case
-            }else if(!j && (i && !(i == w - 1))){
-                sum = grid[h - 1][i - 1] + grid[h - 1][i] + grid[h - 1][i + 1] + grid[j][i - 1] + grid[j][i + 1] + grid[j + 1][i - 1] + grid[j + 1][i] + grid[j + 1][i + 1]; //top of grid, not at left or right case
-            }else if(i == w - 1 && (j && !(j == h - 1))){
-                sum = grid[j - 1][i - 1] + grid[j - 1][i] + grid[j - 1][i + 1] + grid[j][i - 1] + grid[j][i + 1] + grid[0][i - 1] + grid[0][i] + grid[0][i + 1]; //bottom of grid, not at left or right case
-            }else if(i > 0 && j > 0 && i < h - 1 && j < w - 1){
-                sum = grid[j - 1][i - 1] + grid[j - 1][i] + grid[j - 1][i + 1] + grid[j][i - 1] + grid[j][i + 1] + grid[j + 1][i - 1] + grid[j + 1][i] + grid[j + 1][i + 1];
-            }*/
             sum = grid[(i + h - 1) % h][(j + w - 1) % w] + grid[(i + h - 1) % h][j] + grid[(i + h - 1) % h][(j + 1) % w] + grid[i][(j + w - 1) % w] + grid[i][(j + 1) % w] + grid[(i + 1) % h][(j + w - 1) % w] + grid[(i + 1) % h][j] + grid[(i + 1) % h][(j + 1) % w];
             if(sum == 3 || grid[i][j]){
                 temp[i][j] = behavior(sum, grid[i][j]);
             }
         }
     }
+    return temp;
+}
+/** updates klein bottle board type
+ * @param grid the grid that is diplayed
+ * @param temp the temp grid where updates are staged
+ * @param w the width of the grid
+ * @param h the height of the grid
+ * @return unsigned char** the updated grid
+ */
+unsigned char **update_klein(unsigned char **grid, unsigned char **temp, int w, int h){
+    int i;
+    int j;
+    int sum;
+    for(j = 0; j < w; j++){
+        for(i = 0; i < h; i++){
+            if(i == 0){
+                sum = grid[(i + h - 1) % h][(2 * w - (j + w - 1)) % w] + grid[(i + h - 1) % h][w - j] + grid[(i + h - 1) % h][(2 * w - (j + 1)) % w] + grid[i][(j + w - 1) % w] + grid[i][(j + 1) % w] + grid[(i + 1) % h][(j + w - 1) % w] + grid[(i + 1) % h][j] + grid[(i + 1) % h][(j + 1) % w];
+            }else if(i == h - 1){
+                sum = grid[(i + h - 1) % h][(j + w - 1) % w] + grid[(i + h - 1) % h][j] + grid[(i + h - 1) % h][(j + 1) % w] + grid[i][(j + w - 1) % w] + grid[i][(j + 1) % w] + grid[(i + 1) % h][(2 * w - (j + w - 1)) % w] + grid[(i + 1) % h][w - j] + grid[(i + 1) % h][(2 * w - (j + 1)) % w];
+            }else{
+                sum = grid[(i + h - 1) % h][(j + w - 1) % w] + grid[(i + h - 1) % h][j] + grid[(i + h - 1) % h][(j + 1) % w] + grid[i][(j + w - 1) % w] + grid[i][(j + 1) % w] + grid[(i + 1) % h][(j + w - 1) % w] + grid[(i + 1) % h][j] + grid[(i + 1) % h][(j + 1) % w]
+            }
+            if(sum == 3 || grid[i][j]){
+                temp[i][j] = behavior(sum, grid[i][j]);
+            }
+        }
+    }
+
     return temp;
 }

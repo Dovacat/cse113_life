@@ -1,0 +1,37 @@
+\hypertarget{gl_8c}{}\doxysection{gl.\+c File Reference}
+\label{gl_8c}\index{gl.c@{gl.c}}
+
+
+Game of Life main code.  
+
+
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}S\+D\+L2/\+S\+D\+L.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sdl.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}life.\+h\char`\"{}}\newline
+Include dependency graph for gl.\+c\+:
+% FIG 0
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{gl_8c_a0ddf1224851353fc92bfbff6f499fa97}\label{gl_8c_a0ddf1224851353fc92bfbff6f499fa97}} 
+int {\bfseries main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Game of Life main code. 
+
+\begin{DoxyAuthor}{Author}
+Garrett Wood
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2020-\/11-\/09
+\end{DoxyDate}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000001}{Todo}}]read 105 files\end{DoxyRefDesc}
+
+
+\begin{DoxyRemark}{Remarks}
+at this point in time(11/25) I dont think I want to try to get the 105 file thing to work, so I think im done 
+\end{DoxyRemark}

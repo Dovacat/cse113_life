@@ -1,0 +1,283 @@
+\hypertarget{life_8h}{}\doxysection{life.\+h File Reference}
+\label{life_8h}\index{life.h@{life.h}}
+
+
+header file for Game of Life  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}S\+D\+L2/\+S\+D\+L.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sdl.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+Include dependency graph for life.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcommands__t}{commands\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcommands__t}{commands\+\_\+t}} \mbox{\hyperlink{life_8h_a648608851186d925f9fbe8ec7e85679c}{cmd\+\_\+interpret}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]}, struct \mbox{\hyperlink{structcommands__t}{commands\+\_\+t}} commands)
+\item 
+void \mbox{\hyperlink{life_8h_a853216ac51aa181669ff4d3de74058a7}{print\+\_\+help}} ()
+\item 
+unsigned char $\ast$$\ast$ \mbox{\hyperlink{life_8h_a2992029e05e0f051fb46304e0dc238fd}{init\+\_\+grid}} (int w, int h)
+\item 
+void \mbox{\hyperlink{life_8h_a609870608ef58c29f04ae55dfda65439}{free\+\_\+grid}} (unsigned char $\ast$$\ast$grid, int h)
+\item 
+int \mbox{\hyperlink{life_8h_a3cee9b2fbc82f19ba152dd183771f1e7}{read\+\_\+106}} (char file\mbox{[}$\,$\mbox{]}, int array\mbox{[}$\,$\mbox{]})
+\item 
+void \mbox{\hyperlink{life_8h_a80b6f888caa10f22e8e05885d08fb9bd}{get\+\_\+offest}} (struct \mbox{\hyperlink{structcommands__t}{commands\+\_\+t}} commands, int map\mbox{[}$\,$\mbox{]}, int size, int w, int h)
+\item 
+unsigned char $\ast$$\ast$ \mbox{\hyperlink{life_8h_a75054fd934939e361285507da4421b9b}{populate\+\_\+grid}} (int map\mbox{[}$\,$\mbox{]}, int size, unsigned char $\ast$$\ast$grid)
+\item 
+unsigned char $\ast$$\ast$ \mbox{\hyperlink{life_8h_a71b638167c7ad4e56017681ad950e256}{update\+\_\+grid}} (int w, int h, unsigned char $\ast$$\ast$grid, unsigned char $\ast$$\ast$temp)
+\item 
+int \mbox{\hyperlink{life_8h_a5d5084ce30be9f2f511a6c05728a5826}{behavior}} (int sum, int state)
+\item 
+unsigned char $\ast$$\ast$ \mbox{\hyperlink{life_8h_a4f07a318bf4c9b3d1d9ff6dc277daa8e}{update\+\_\+hedge}} (unsigned char $\ast$$\ast$grid, unsigned char $\ast$$\ast$temp, int w, int h)
+\item 
+unsigned char $\ast$$\ast$ \mbox{\hyperlink{life_8h_a97d17e1929e6f4d8598c3694cd56bffb}{update\+\_\+torus}} (unsigned char $\ast$$\ast$grid, unsigned char $\ast$$\ast$temp, int w, int h)
+\item 
+unsigned char $\ast$$\ast$ \mbox{\hyperlink{life_8h_a5f93e8aea636cce28bcbd05bb1d2b579}{update\+\_\+klein}} (unsigned char $\ast$$\ast$grid, unsigned char $\ast$$\ast$temp, int w, int h)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+header file for Game of Life 
+
+\begin{DoxyAuthor}{Author}
+Garrett Wood
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2020-\/11-\/09 
+\end{DoxyDate}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{life_8h_a5d5084ce30be9f2f511a6c05728a5826}\label{life_8h_a5d5084ce30be9f2f511a6c05728a5826}} 
+\index{life.h@{life.h}!behavior@{behavior}}
+\index{behavior@{behavior}!life.h@{life.h}}
+\doxysubsubsection{\texorpdfstring{behavior()}{behavior()}}
+{\footnotesize\ttfamily int behavior (\begin{DoxyParamCaption}\item[{int}]{sum,  }\item[{int}]{state }\end{DoxyParamCaption})}
+
+determines what a cell should do(live/die) 
+\begin{DoxyParams}{Parameters}
+{\em sum} & the sum of the neighbors \\
+\hline
+{\em state} & the current state of the cell \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int the updated state of the cell 
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+since all alive cells have a value of 1, I can just add up all the neighbors to determine what a cell should do 
+\end{DoxyRemark}
+\mbox{\Hypertarget{life_8h_a648608851186d925f9fbe8ec7e85679c}\label{life_8h_a648608851186d925f9fbe8ec7e85679c}} 
+\index{life.h@{life.h}!cmd\_interpret@{cmd\_interpret}}
+\index{cmd\_interpret@{cmd\_interpret}!life.h@{life.h}}
+\doxysubsubsection{\texorpdfstring{cmd\_interpret()}{cmd\_interpret()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structcommands__t}{commands\+\_\+t}} cmd\+\_\+interpret (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]},  }\item[{struct \mbox{\hyperlink{structcommands__t}{commands\+\_\+t}}}]{commands }\end{DoxyParamCaption})}
+
+fills the commands struct based on args given at run
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & the number of args given in the terminal \\
+\hline
+{\em argv} & the command string \\
+\hline
+{\em commands} & the struct that is populated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+struct \mbox{\hyperlink{structcommands__t}{commands\+\_\+t}} the populated struct 
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+since im lazy and dont want to enter commands every time, all values are defaulted except filename at the start 
+\end{DoxyRemark}
+\mbox{\Hypertarget{life_8h_a609870608ef58c29f04ae55dfda65439}\label{life_8h_a609870608ef58c29f04ae55dfda65439}} 
+\index{life.h@{life.h}!free\_grid@{free\_grid}}
+\index{free\_grid@{free\_grid}!life.h@{life.h}}
+\doxysubsubsection{\texorpdfstring{free\_grid()}{free\_grid()}}
+{\footnotesize\ttfamily void free\+\_\+grid (\begin{DoxyParamCaption}\item[{unsigned char $\ast$$\ast$}]{grid,  }\item[{int}]{h }\end{DoxyParamCaption})}
+
+frees the memory allocated for the grid 
+\begin{DoxyParams}{Parameters}
+{\em grid} & the grid to be freed \\
+\hline
+{\em w} & the width of the grid \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{life_8h_a80b6f888caa10f22e8e05885d08fb9bd}\label{life_8h_a80b6f888caa10f22e8e05885d08fb9bd}} 
+\index{life.h@{life.h}!get\_offest@{get\_offest}}
+\index{get\_offest@{get\_offest}!life.h@{life.h}}
+\doxysubsubsection{\texorpdfstring{get\_offest()}{get\_offest()}}
+{\footnotesize\ttfamily void get\+\_\+offest (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structcommands__t}{commands\+\_\+t}}}]{commands,  }\item[{int}]{map\mbox{[}$\,$\mbox{]},  }\item[{int}]{size,  }\item[{int}]{w,  }\item[{int}]{h }\end{DoxyParamCaption})}
+
+changes starting position of map based on user input and whether or not cells will be out of bounds 
+\begin{DoxyParams}{Parameters}
+{\em offset\+\_\+x} & the user entered x offset \\
+\hline
+{\em offset\+\_\+y} & the user entered y offset \\
+\hline
+{\em map} & the seed map \\
+\hline
+{\em size} & number of coordinates in the seed map \\
+\hline
+{\em w} & the width of the grid \\
+\hline
+{\em h} & the height of the grid \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{life_8h_a2992029e05e0f051fb46304e0dc238fd}\label{life_8h_a2992029e05e0f051fb46304e0dc238fd}} 
+\index{life.h@{life.h}!init\_grid@{init\_grid}}
+\index{init\_grid@{init\_grid}!life.h@{life.h}}
+\doxysubsubsection{\texorpdfstring{init\_grid()}{init\_grid()}}
+{\footnotesize\ttfamily unsigned char$\ast$$\ast$ init\+\_\+grid (\begin{DoxyParamCaption}\item[{int}]{w,  }\item[{int}]{h }\end{DoxyParamCaption})}
+
+inits the 2d array used for the grid 
+\begin{DoxyParams}{Parameters}
+{\em h} & the height of the grid \\
+\hline
+{\em w} & the width of the grid \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned char$\ast$$\ast$ the generated 2d array 
+\end{DoxyReturn}
+\mbox{\Hypertarget{life_8h_a75054fd934939e361285507da4421b9b}\label{life_8h_a75054fd934939e361285507da4421b9b}} 
+\index{life.h@{life.h}!populate\_grid@{populate\_grid}}
+\index{populate\_grid@{populate\_grid}!life.h@{life.h}}
+\doxysubsubsection{\texorpdfstring{populate\_grid()}{populate\_grid()}}
+{\footnotesize\ttfamily unsigned char$\ast$$\ast$ populate\+\_\+grid (\begin{DoxyParamCaption}\item[{int}]{map\mbox{[}$\,$\mbox{]},  }\item[{int}]{size,  }\item[{unsigned char $\ast$$\ast$}]{grid }\end{DoxyParamCaption})}
+
+populates grid based on map 
+\begin{DoxyParams}{Parameters}
+{\em map} & the seed map \\
+\hline
+{\em size} & the number of coordinates in the map \\
+\hline
+{\em grid} & the grid that will be populated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned char$\ast$$\ast$ the populated grid 
+\end{DoxyReturn}
+\mbox{\Hypertarget{life_8h_a853216ac51aa181669ff4d3de74058a7}\label{life_8h_a853216ac51aa181669ff4d3de74058a7}} 
+\index{life.h@{life.h}!print\_help@{print\_help}}
+\index{print\_help@{print\_help}!life.h@{life.h}}
+\doxysubsubsection{\texorpdfstring{print\_help()}{print\_help()}}
+{\footnotesize\ttfamily void print\+\_\+help (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+prints the use of the program/explains what arguments do \mbox{\Hypertarget{life_8h_a3cee9b2fbc82f19ba152dd183771f1e7}\label{life_8h_a3cee9b2fbc82f19ba152dd183771f1e7}} 
+\index{life.h@{life.h}!read\_106@{read\_106}}
+\index{read\_106@{read\_106}!life.h@{life.h}}
+\doxysubsubsection{\texorpdfstring{read\_106()}{read\_106()}}
+{\footnotesize\ttfamily int read\+\_\+106 (\begin{DoxyParamCaption}\item[{char}]{fname\mbox{[}$\,$\mbox{]},  }\item[{int}]{array\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+reads 106 type files 
+\begin{DoxyParams}{Parameters}
+{\em fname} & the file name to be read \\
+\hline
+{\em array} & the array that is populated with the file contents \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int the number of coordinates 
+\end{DoxyReturn}
+\mbox{\Hypertarget{life_8h_a71b638167c7ad4e56017681ad950e256}\label{life_8h_a71b638167c7ad4e56017681ad950e256}} 
+\index{life.h@{life.h}!update\_grid@{update\_grid}}
+\index{update\_grid@{update\_grid}!life.h@{life.h}}
+\doxysubsubsection{\texorpdfstring{update\_grid()}{update\_grid()}}
+{\footnotesize\ttfamily unsigned char$\ast$$\ast$ update\+\_\+grid (\begin{DoxyParamCaption}\item[{int}]{w,  }\item[{int}]{h,  }\item[{unsigned char $\ast$$\ast$}]{grid,  }\item[{unsigned char $\ast$$\ast$}]{temp }\end{DoxyParamCaption})}
+
+pushes staged changes to the display grid 
+\begin{DoxyParams}{Parameters}
+{\em w} & width of grid \\
+\hline
+{\em h} & height of grid \\
+\hline
+{\em grid} & the displayed grid \\
+\hline
+{\em temp} & the temp grid where changes are staged \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned char$\ast$$\ast$ the updated display grid 
+\end{DoxyReturn}
+\mbox{\Hypertarget{life_8h_a4f07a318bf4c9b3d1d9ff6dc277daa8e}\label{life_8h_a4f07a318bf4c9b3d1d9ff6dc277daa8e}} 
+\index{life.h@{life.h}!update\_hedge@{update\_hedge}}
+\index{update\_hedge@{update\_hedge}!life.h@{life.h}}
+\doxysubsubsection{\texorpdfstring{update\_hedge()}{update\_hedge()}}
+{\footnotesize\ttfamily unsigned char$\ast$$\ast$ update\+\_\+hedge (\begin{DoxyParamCaption}\item[{unsigned char $\ast$$\ast$}]{grid,  }\item[{unsigned char $\ast$$\ast$}]{temp,  }\item[{int}]{w,  }\item[{int}]{h }\end{DoxyParamCaption})}
+
+updates hedge type board 
+\begin{DoxyParams}{Parameters}
+{\em grid} & the grid that is displayed \\
+\hline
+{\em temp} & the temp grid where updates are staged \\
+\hline
+{\em w} & the width of the grid \\
+\hline
+{\em h} & the height of the grid \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned char$\ast$$\ast$ the updated grid 
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+I wish this was a better implementation, Ill change it if it becomes problematic or I think of a better solution 
+\end{DoxyRemark}
+\mbox{\Hypertarget{life_8h_a5f93e8aea636cce28bcbd05bb1d2b579}\label{life_8h_a5f93e8aea636cce28bcbd05bb1d2b579}} 
+\index{life.h@{life.h}!update\_klein@{update\_klein}}
+\index{update\_klein@{update\_klein}!life.h@{life.h}}
+\doxysubsubsection{\texorpdfstring{update\_klein()}{update\_klein()}}
+{\footnotesize\ttfamily unsigned char$\ast$$\ast$ update\+\_\+klein (\begin{DoxyParamCaption}\item[{unsigned char $\ast$$\ast$}]{grid,  }\item[{unsigned char $\ast$$\ast$}]{temp,  }\item[{int}]{w,  }\item[{int}]{h }\end{DoxyParamCaption})}
+
+updates klein bottle board type 
+\begin{DoxyParams}{Parameters}
+{\em grid} & the grid that is diplayed \\
+\hline
+{\em temp} & the temp grid where updates are staged \\
+\hline
+{\em w} & the width of the grid \\
+\hline
+{\em h} & the height of the grid \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned char$\ast$$\ast$ the updated grid 
+\end{DoxyReturn}
+\mbox{\Hypertarget{life_8h_a97d17e1929e6f4d8598c3694cd56bffb}\label{life_8h_a97d17e1929e6f4d8598c3694cd56bffb}} 
+\index{life.h@{life.h}!update\_torus@{update\_torus}}
+\index{update\_torus@{update\_torus}!life.h@{life.h}}
+\doxysubsubsection{\texorpdfstring{update\_torus()}{update\_torus()}}
+{\footnotesize\ttfamily unsigned char$\ast$$\ast$ update\+\_\+torus (\begin{DoxyParamCaption}\item[{unsigned char $\ast$$\ast$}]{grid,  }\item[{unsigned char $\ast$$\ast$}]{temp,  }\item[{int}]{w,  }\item[{int}]{h }\end{DoxyParamCaption})}
+
+updates torus type board 
+\begin{DoxyParams}{Parameters}
+{\em grid} & the grid that is diplayed \\
+\hline
+{\em temp} & the temp grid where updates are staged \\
+\hline
+{\em w} & the width of the grid \\
+\hline
+{\em h} & the height of the grid \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned char$\ast$$\ast$ the updated grid 
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+Oh lord I hate this thing but its the only way I can come up with atm, might try a diff solution later 
+
+actually I found a cool ish solution 
+\end{DoxyRemark}

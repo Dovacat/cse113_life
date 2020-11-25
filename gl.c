@@ -28,8 +28,6 @@ int main(int argc, char *argv[])
 	int h = commands.h / commands.s; //height of grid
 	printf("height %d\n", h);
 	int map[w * h]; //array that hold the seed map values
-	unsigned char **grid = init_grid(h, w); //grid that is displayed to the screen
-	unsigned char **temp = init_grid(h, w); //grid that is used to calculate next generation
     
 	//colors are RGB model valid values [0, 255]
 	unsigned char red = commands.r;
@@ -39,6 +37,8 @@ int main(int argc, char *argv[])
 	size = read_106(commands.file, map);
 	get_offest(commands, map, size, w, h);
 	//sets grind and temp to starting seed map
+	unsigned char **grid = init_grid(h, w); //grid that is displayed to the screen
+	unsigned char **temp = init_grid(h, w); //grid that is used to calculate next generation
 	grid = populate_grid(map, size, grid);
 	temp = populate_grid(map, size, temp);
 
@@ -80,15 +80,19 @@ int main(int argc, char *argv[])
 			case SDL_KEYUP:
                         //If escape is pressed, return (and thus, quit)
 				if (event.key.keysym.sym == SDLK_ESCAPE){
+					free_grid(grid, w);
+					free_grid(temp, w);
 					return 0;
 				}
 				break;
 			case SDL_QUIT:
+				free_grid(grid, w);
+				free_grid(temp, w);
 				return(0);
 			}
 		}
 	}
-	free_grid(grid, w);
 	free_grid(temp, w);
+	free_grid(grid, w);
 	return 0;
 }

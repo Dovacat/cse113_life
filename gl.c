@@ -7,7 +7,9 @@
  * 
  * @date 2020-11-09
  * 
- * @todo change interpritation based on board type, read 105 files
+ * @todo read 105 files
+ * 
+ * @remarks at this point in time(11/25) I dont think I want to try to get the 105 file thing to work, so I think im done 
  * 
  */
 #include <stdlib.h>

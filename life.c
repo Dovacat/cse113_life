@@ -7,7 +7,7 @@
  * 
  * @date 2020-11-09
  * 
- * @todo change interpritation based on board type, read 105 files
+ * @todo read 105 files
  * 
  */
 #include "life.h"
@@ -394,7 +394,7 @@ unsigned char **update_klein(unsigned char **grid, unsigned char **temp, int w, 
             }else if(i == h - 1){
                 sum = grid[(i + h - 1) % h][(j + w - 1) % w] + grid[(i + h - 1) % h][j] + grid[(i + h - 1) % h][(j + 1) % w] + grid[i][(j + w - 1) % w] + grid[i][(j + 1) % w] + grid[(i + 1) % h][(2 * w - (j + w - 1)) % w] + grid[(i + 1) % h][w - j] + grid[(i + 1) % h][(2 * w - (j + 1)) % w];
             }else{
-                sum = grid[(i + h - 1) % h][(j + w - 1) % w] + grid[(i + h - 1) % h][j] + grid[(i + h - 1) % h][(j + 1) % w] + grid[i][(j + w - 1) % w] + grid[i][(j + 1) % w] + grid[(i + 1) % h][(j + w - 1) % w] + grid[(i + 1) % h][j] + grid[(i + 1) % h][(j + 1) % w]
+                sum = grid[(i + h - 1) % h][(j + w - 1) % w] + grid[(i + h - 1) % h][j] + grid[(i + h - 1) % h][(j + 1) % w] + grid[i][(j + w - 1) % w] + grid[i][(j + 1) % w] + grid[(i + 1) % h][(j + w - 1) % w] + grid[(i + 1) % h][j] + grid[(i + 1) % h][(j + 1) % w];
             }
             if(sum == 3 || grid[i][j]){
                 temp[i][j] = behavior(sum, grid[i][j]);
